@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ModooTimer</string>
+
+    <string name="BasicTimer">Basic</string>
+    <string name="TimerList">List</string>
+
+</resources>
