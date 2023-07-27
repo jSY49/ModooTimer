@@ -7,6 +7,7 @@
     tools:context=".BasicTimerFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:clipToPadding="false"
         android:id="@+id/stopLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -101,7 +102,7 @@
             android:padding="10dp"
             android:text="@string/start"
             android:textColor="@color/black"
-            android:elevation="40dp"
+            android:elevation="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -207,7 +208,6 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/pause_button_pressed_selector"
-                android:backgroundTint="@color/red"
                 android:padding="10dp"
                 android:text="@string/pause"
                 android:textColor="@color/black" />

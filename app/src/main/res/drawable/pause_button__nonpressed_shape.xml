@@ -3,7 +3,7 @@
     android:shape="rectangle">
 
     <solid
-        android:color="@color/darkred"/>
+        android:color="@color/red"/>
 
     <corners android:radius="30dp" />
 
