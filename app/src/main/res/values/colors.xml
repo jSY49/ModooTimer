@@ -14,4 +14,8 @@
     <color name="red">#FF0000</color>
     <color name="darkred">#B30101</color>
 
+    <color name="yellowGreen">#C8E6C9</color>
+    <color name="lightGreen">#AEE4AF</color>
+
+
 </resources>
