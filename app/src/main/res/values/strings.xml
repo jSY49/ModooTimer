@@ -4,19 +4,22 @@
     <string name="BasicTimer">Basic</string>
     <string name="TimerList">List</string>
 
-    <string name="hour">시</string>
-    <string name="minute">분</string>
-    <string name="sec">초</string>
+    <string name="hour">time</string>
+    <string name="minute">min</string>
+    <string name="sec">sec</string>
 
-    <string name="start">시작</string>
-    <string name="pause">일시 중지</string>
-    <string name="cancle">취소</string>
-    <string name="done">해제</string>
-    <string name="replay">다시 시작</string>
+    <string name="start">start</string>
+    <string name="pause">pause</string>
+    <string name="cancle">cancel</string>
+    <string name="done">done</string>
+    <string name="replay">restart</string>
 
-    <string name="zero">0</string>
-    <string name="colon">:</string>
+    <string name="zero" translatable="false">0</string>
+    <string name="colon" translatable="false">:</string>
+    <string name="addlist" translatable="false">addList</string>
 
-
+    <string name="add">ADD</string>
+    <string name="name">Timer name</string>
+    <string name="save">save</string>
 
 </resources>

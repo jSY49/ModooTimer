@@ -1,11 +1,17 @@
 package com.jaysdevapp.modootimer
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
+import android.graphics.Point
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import com.jaysdevapp.modootimer.databinding.FragmentTimerListBinding
 
 class TimerListFragment : Fragment() {
 
@@ -14,18 +20,30 @@ class TimerListFragment : Fragment() {
     }
 
     private lateinit var viewModel: TimerListViewModel
+    private lateinit var binding : FragmentTimerListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_timer_list, container, false)
+        binding = FragmentTimerListBinding.inflate(layoutInflater,container,false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(TimerListViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        binding.addFloatingButton.setOnClickListener { showDialog() }
+
+
+    }
+
+    private fun showDialog() {
+
+
+        val dialog = AddListDialog()
+        dialog.show(requireActivity().supportFragmentManager,"Sample")
     }
 
 }
