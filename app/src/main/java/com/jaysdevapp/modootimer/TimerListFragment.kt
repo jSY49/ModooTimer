@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import com.jaysdevapp.modootimer.databinding.FragmentTimerListBinding
 
 class TimerListFragment : Fragment() {
@@ -40,10 +41,17 @@ class TimerListFragment : Fragment() {
     }
 
     private fun showDialog() {
-
-
         val dialog = AddListDialog()
-        dialog.show(requireActivity().supportFragmentManager,"Sample")
+
+        dialog.setOnClickListener(object : AddListDialog.OnDialogClickListener {
+            override fun onClicked(name: String,h: Int, m : Int, s :Int)
+            {
+                Toast.makeText(context,"$name : $h:$m:$s",Toast.LENGTH_LONG).show()
+            }
+
+        })
+
+        dialog.show(requireActivity().supportFragmentManager,"AddTimer")
     }
 
 }

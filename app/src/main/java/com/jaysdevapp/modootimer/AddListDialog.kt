@@ -1,12 +1,15 @@
 package com.jaysdevapp.modootimer
 
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.jaysdevapp.modootimer.databinding.FragmentAddListDialogBinding
@@ -17,6 +20,18 @@ class AddListDialog : DialogFragment() {
     private var hour = 0
     private var min = 0
     private var sec = 0
+
+
+    private lateinit var onClickListener: OnDialogClickListener
+    fun setOnClickListener(listener: OnDialogClickListener)
+    {
+        onClickListener = listener
+    }
+    interface OnDialogClickListener
+    {
+        fun onClicked(name: String, tHour:Int, tMin: Int, tSec:Int)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +57,15 @@ class AddListDialog : DialogFragment() {
         binding.cancelButton.setOnClickListener {
             dialog?.dismiss()
         }
+        binding.saveButton.setOnClickListener {
+            if(!binding.NameEdit.text.isBlank()){
+                onClickListener.onClicked(binding.NameEdit.text.toString(),hour,min,sec)
+                dismiss()
+            }
+
+            else
+                Toast.makeText(context,"Timer Info is Blank!",Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onResume() {
@@ -56,13 +80,10 @@ class AddListDialog : DialogFragment() {
         val params: ViewGroup.LayoutParams? = dialog?.window?.attributes
         val deviceWidth = size.x
 //        val deviceheight = size.y
-
         params?.width = (deviceWidth * 0.9).toInt()
 //        params?.height = (deviceheight * 0.5).toInt()
-
         //둥글둥글모서리
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
         dialog?.window?.attributes = params as WindowManager.LayoutParams
     }
 
@@ -91,4 +112,6 @@ class AddListDialog : DialogFragment() {
         }
 
     }
+
+
 }
