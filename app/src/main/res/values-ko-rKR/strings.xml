@@ -14,4 +14,9 @@
     <string name="add">추가하기</string>
     <string name="name">타이머 이름</string>
     <string name="save">저장</string>
+    <string name="saveFailure">저장에 실패했습니다. 다시 시도해 주세요.</string>
+    <string name="saveSuccess">"저장에 성공했습니다. "</string>
+    <string name="UserName">이름 설정하기</string>
+    <string name="askUserName">사용자 이름을 입력해주세요.</string>
+    <string name="nameInfo">"사용자 이름은 타이머를 저장하는 데 사용됩니다. "</string>
 </resources>

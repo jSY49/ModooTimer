@@ -22,4 +22,11 @@
     <string name="name">Timer name</string>
     <string name="save">save</string>
 
+    <string name="saveFailure">Fail to save data. Please try again.</string>
+    <string name="saveSuccess">Success to save data.</string>
+
+    <string name="UserName">Setting your name!</string>
+    <string name="askUserName">Input your Name</string>
+    <string name="nameInfo">"User name is used to save your Timer. "</string>
+
 </resources>
