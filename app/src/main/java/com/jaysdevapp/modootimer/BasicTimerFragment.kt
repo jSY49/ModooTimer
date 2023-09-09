@@ -25,12 +25,10 @@ class BasicTimerFragment : Fragment() {
 
     private lateinit var viewModel: BasicTimerViewModel
     private lateinit var _binding: FragmentBasicTimerBinding
-    private var hour = 0
-    private var min = 0
-    private var sec = 0
-    var tmpH = hour
-    var tmpM = min
-    var tmpS = sec
+    lateinit var numberPicker : SetNumberPicker
+    var tmpH = 0
+    var tmpM = 0
+    var tmpS = 0
 
     private var pauseFlag = false
     private var timer: Timer? = null
@@ -51,7 +49,9 @@ class BasicTimerFragment : Fragment() {
         viewModel = ViewModelProvider(this)[BasicTimerViewModel::class.java]
 
         setNotification()
-        setNumberPicker()
+        numberPicker = SetNumberPicker(_binding.numberPicker1,_binding.numberPicker2,_binding.numberPicker3)
+        numberPicker.setting()
+
         _binding.startButton.setOnClickListener { startButtonClick() }
         _binding.cancelButton.setOnClickListener { cancelButtonClick() }
         _binding.pauseButton.setOnClickListener { pauseButtonClick() }
@@ -103,6 +103,9 @@ class BasicTimerFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun startButtonClick() {
+        var hour  = numberPicker.getHour()
+        var min  = numberPicker.getMin()
+        var sec  = numberPicker.getSec()
         _binding.pauseButton.text = resources.getString(R.string.pause)
         if (hour != 0 || min != 0 || sec != 0) {
             _binding.stopLayout.visibility = View.GONE
@@ -185,32 +188,5 @@ class BasicTimerFragment : Fragment() {
         }
 
     }
-
-    private fun setNumberPicker() {
-
-        _binding.numberPicker1.maxValue = 23
-        _binding.numberPicker2.maxValue = 59
-        _binding.numberPicker3.maxValue = 59
-
-        _binding.numberPicker1.minValue = 0
-        _binding.numberPicker2.minValue = 0
-        _binding.numberPicker3.minValue = 0
-
-        _binding.numberPicker1.wrapSelectorWheel = true
-        _binding.numberPicker2.wrapSelectorWheel = true
-        _binding.numberPicker3.wrapSelectorWheel = true
-
-        _binding.numberPicker1.setOnValueChangedListener { picker, oldVal, newVal ->
-            hour = newVal
-        }
-        _binding.numberPicker2.setOnValueChangedListener { picker, oldVal, newVal ->
-            min = newVal
-        }
-        _binding.numberPicker3.setOnValueChangedListener { picker, oldVal, newVal ->
-            sec = newVal
-        }
-
-    }
-
 
 }
