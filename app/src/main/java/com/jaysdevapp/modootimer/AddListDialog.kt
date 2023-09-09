@@ -1,26 +1,25 @@
 package com.jaysdevapp.modootimer
 
-import android.app.Dialog
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.DialogFragment
 import com.jaysdevapp.modootimer.databinding.FragmentAddListDialogBinding
 
 
 class AddListDialog : DialogFragment() {
 
-    private var hour = 0
-    private var min = 0
-    private var sec = 0
-
+    lateinit var numberPicker : SetNumberPicker
 
     private lateinit var onClickListener: OnDialogClickListener
     fun setOnClickListener(listener: OnDialogClickListener)
@@ -53,18 +52,34 @@ class AddListDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setNumberPicker()
+        numberPicker = SetNumberPicker(binding.numberPicker1,binding.numberPicker2,binding.numberPicker3)
+        numberPicker.setting()
+
         binding.cancelButton.setOnClickListener {
             dialog?.dismiss()
         }
         binding.saveButton.setOnClickListener {
             if(!binding.NameEdit.text.isBlank()){
-                onClickListener.onClicked(binding.NameEdit.text.toString(),hour,min,sec)
+                onClickListener.onClicked(binding.NameEdit.text.toString(),numberPicker.getHour(),numberPicker.getMin(),numberPicker.getSec())
                 dismiss()
             }
 
             else
                 Toast.makeText(context,"Timer Info is Blank!",Toast.LENGTH_LONG).show()
+        }
+
+
+        binding.NameEdit.setOnEditorActionListener{ textView, action, event ->
+            var handled = false
+
+            if (action == EditorInfo.IME_ACTION_DONE) {
+                // 키보드 내리기
+                val inputMethodManager = context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(textView.windowToken, 0)
+                handled = true
+            }
+
+            handled
         }
     }
 
@@ -86,32 +101,5 @@ class AddListDialog : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.attributes = params as WindowManager.LayoutParams
     }
-
-    private fun setNumberPicker() {
-
-        binding.numberPicker1.maxValue = 23
-        binding.numberPicker2.maxValue = 59
-        binding.numberPicker3.maxValue = 59
-
-        binding.numberPicker1.minValue = 0
-        binding.numberPicker2.minValue = 0
-        binding.numberPicker3.minValue = 0
-
-        binding.numberPicker1.wrapSelectorWheel = true
-        binding.numberPicker2.wrapSelectorWheel = true
-        binding.numberPicker3.wrapSelectorWheel = true
-
-        binding.numberPicker1.setOnValueChangedListener { picker, oldVal, newVal ->
-            hour = newVal
-        }
-        binding.numberPicker2.setOnValueChangedListener { picker, oldVal, newVal ->
-            min = newVal
-        }
-        binding.numberPicker3.setOnValueChangedListener { picker, oldVal, newVal ->
-            sec = newVal
-        }
-
-    }
-
 
 }
