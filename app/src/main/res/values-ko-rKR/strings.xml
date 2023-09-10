@@ -19,4 +19,6 @@
     <string name="UserName">이름 설정하기</string>
     <string name="askUserName">사용자 이름을 입력해주세요.</string>
     <string name="nameInfo">"사용자 이름은 타이머를 저장하는 데 사용됩니다. "</string>
+    <string name="namechck_true">"사용 가능한 이름입니다. "</string>
+    <string name="namechck_false">"이미 존재하는 이름입니다. "</string>
 </resources>

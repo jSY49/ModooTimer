@@ -1,11 +1,13 @@
 package com.jaysdevapp.modootimer
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +16,9 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.jaysdevapp.modootimer.databinding.FragmentAddListDialogBinding
+import com.google.firebase.firestore.FirebaseFirestore
 import com.jaysdevapp.modootimer.databinding.FragmentSetNameDialogBinding
+
 
 class AddUserNameDialog : DialogFragment() {
 
@@ -26,7 +29,7 @@ class AddUserNameDialog : DialogFragment() {
     }
     interface OnDialogClickListener
     {
-        fun onClicked(name: String)
+        fun onClicked(name: String,flag : Boolean)
     }
 
 
@@ -36,7 +39,7 @@ class AddUserNameDialog : DialogFragment() {
     }
 
     private lateinit var binding: FragmentSetNameDialogBinding
-
+    private var checkFlag = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,6 +49,7 @@ class AddUserNameDialog : DialogFragment() {
         return binding.root
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -53,15 +57,45 @@ class AddUserNameDialog : DialogFragment() {
             dialog?.dismiss()
         }
         binding.saveButton.setOnClickListener {
-            if(!binding.NameEdit.text.isBlank()){
-                onClickListener.onClicked(binding.NameEdit.text.toString())
+            if(!binding.NameEdit.text.isBlank()&&checkFlag){
+                onClickListener.onClicked(binding.NameEdit.text.toString(),checkFlag)
                 dismiss()
             }
-
             else
-                Toast.makeText(context,"Your name is Blank!",Toast.LENGTH_LONG).show()
+                Toast.makeText(context,"Your name check Please!",Toast.LENGTH_LONG).show()
         }
 
+        binding.checkBtn.setOnClickListener {
+            if(binding.NameEdit.text.isBlank()) {
+                Toast.makeText(
+                    context,
+                    resources.getString(R.string.askUserName),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            else{
+                val rootRef = FirebaseFirestore.getInstance()
+                val docIdRef = rootRef.collection("User").document(binding.NameEdit.text.toString())
+                docIdRef.get().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val document = task.result
+                        if(document.exists()){
+                            checkFlag=false
+                            binding.NameInfo.text=resources.getString(R.string.namechck_false)
+                            binding.NameInfo.setTextColor(resources.getColor(R.color.red))
+                        }else{
+                            checkFlag = true
+                            binding.NameInfo.text=resources.getString(R.string.namechck_true)
+                            binding.NameInfo.setTextColor(resources.getColor(R.color.blue))
+                        }
+
+                    } else {
+                        Log.d("Check Id", "Failed with: ", task.exception)
+                    }
+                }
+            }
+
+        }
 
         binding.NameEdit.setOnEditorActionListener{ textView, action, event ->
             var handled = false

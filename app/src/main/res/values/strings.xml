@@ -29,4 +29,7 @@
     <string name="askUserName">Input your Name</string>
     <string name="nameInfo">"User name is used to save your Timer. "</string>
 
+    <string name="namechck_true">This name is available.</string>
+    <string name="namechck_false">This name already exists.</string>
+
 </resources>

@@ -1,25 +1,29 @@
 package com.jaysdevapp.modootimer
 
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.jaysdevapp.modootimer.databinding.FragmentTimerListBinding
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class TimerListFragment : Fragment() {
 
     //TOdo 닉네임 설정 다이얼로그 호출 ✅
-    //TODO 닉네임 중복 검사 checkBtn
+    //TODO 닉네임 중복 검사 checkBtn ✅
+    //TODO  not중복 : db/shared 저장 ✅
     //TODO 닉네임 제한 (길이)
-    //TODO  not중복 : db/shared 저장
     companion object {
         fun newInstance() = TimerListFragment()
         lateinit var preferences: UserUtil
@@ -27,6 +31,7 @@ class TimerListFragment : Fragment() {
 
     private lateinit var viewModel: TimerListViewModel
     private lateinit var binding: FragmentTimerListBinding
+    private lateinit var name : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +47,7 @@ class TimerListFragment : Fragment() {
         preferences = UserUtil(activity!!.applicationContext)
 
         binding.addFloatingButton.setOnClickListener {
-            var name = preferences.getString("userNm", "")
+            name = preferences.getString("userNm", "")
 
             Log.d("TimerListFragment","onActivityCreated UserName : $name")
 
@@ -59,20 +64,24 @@ class TimerListFragment : Fragment() {
         val dialog = AddListDialog()
 
         dialog.setOnClickListener(object : AddListDialog.OnDialogClickListener {
-            override fun onClicked(name: String, h: Int, m: Int, s: Int) {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onClicked(tName: String, h: Int, m: Int, s: Int) {
 //                Toast.makeText(context,"$name : $h:$m:$s",Toast.LENGTH_LONG).show()
                 val db = Firebase.firestore
                 val data = hashMapOf(
-                    "name" to name,
+                    "name" to tName,
                     "hour" to h,
                     "minute" to m,
                     "sec" to s
                 )
 
+                val current = LocalDateTime.now()
+                val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm")
+                val formatted = current.format(formatter)
 
                 //TODO 회워아이디와 타이머 아이디 생성
-                db.collection("List").document("회원아이디")
-                    .collection("Timer").document("타이머아이디")
+                db.collection("List").document(name)
+                    .collection("Timer").document(tName+"_"+formatted)
                     .set(data, SetOptions.merge())
                     .addOnSuccessListener {
                         Toast.makeText(context, R.string.saveSuccess, Toast.LENGTH_LONG).show()
@@ -94,9 +103,28 @@ class TimerListFragment : Fragment() {
         val dialog = AddUserNameDialog()
 
         dialog.setOnClickListener(object : AddUserNameDialog.OnDialogClickListener {
-            override fun onClicked(name: String) {
-                Toast.makeText(context,"$name",Toast.LENGTH_LONG).show()
+            override fun onClicked(name: String,flag : Boolean) {
+                if(flag) {
+                    val db = Firebase.firestore
+                    val data = hashMapOf(
+                        "name" to name,
+                    )
 
+                    //TODO 회워아이디와 타이머 아이디 생성
+                    db.collection("User").document(name)
+                        .set(data, SetOptions.merge())
+                        .addOnSuccessListener {
+                            Toast.makeText(context, R.string.saveSuccess, Toast.LENGTH_LONG).show()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(context, R.string.saveFailure, Toast.LENGTH_LONG).show()
+                        }
+
+                preferences.setString("userNm",name)
+
+                }else{
+
+                }
             }
         })
         dialog.show(requireActivity().supportFragmentManager, "AddName")
