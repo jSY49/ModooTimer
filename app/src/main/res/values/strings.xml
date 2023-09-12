@@ -32,4 +32,6 @@
     <string name="namechck_true">This name is available.</string>
     <string name="namechck_false">This name already exists.</string>
 
+    <string name="Title" translatable="false">Title</string>
+
 </resources>
