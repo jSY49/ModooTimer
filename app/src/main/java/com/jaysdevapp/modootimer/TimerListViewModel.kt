@@ -1,5 +1,6 @@
 package com.jaysdevapp.modootimer
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +11,18 @@ class TimerListViewModel : ViewModel() {
 
     var livedata: MutableLiveData<ArrayList<timerData>> = MutableLiveData()
     private var arr : ArrayList<timerData> = arrayListOf()
+    var userId  : MutableLiveData<String> = MutableLiveData()
+    companion object{
+        lateinit var preferences: UserUtil
+    }
+
     fun dataUpdate(name :String){
+        arr.clear()
         getData(name)
+    }
+
+    fun getUserId(context: Context){
+        getId(context)
     }
 
     private fun getData(name :String){
@@ -34,5 +45,14 @@ class TimerListViewModel : ViewModel() {
             .addOnFailureListener { exception ->
                 Log.w("TimerListViewModel_getData()", "Error getting documents: ", exception)
             }
+    }
+
+    private fun getId(context: Context){
+        preferences = UserUtil(context)
+        userId.postValue(preferences.getString("userNm", ""))
+    }
+
+    fun addName(key: String, name: String) {
+        preferences.setString(key,name)
     }
 }
