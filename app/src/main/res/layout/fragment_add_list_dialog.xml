@@ -30,12 +30,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:hint="@string/name"
+        android:textColor="@color/black"
         android:singleLine="true"
         android:imeOptions="actionDone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Title"
-        tools:layout_editor_absoluteY="10dp" />
+        tools:layout_editor_absoluteY="10dp"
+        android:theme="@style/MyEditTextTheme"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"
