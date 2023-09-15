@@ -2,12 +2,16 @@ package com.jaysdevapp.modootimer
 
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import com.jaysdevapp.modootimer.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,6 +58,22 @@ class MainActivity : AppCompatActivity() {
                 else -> return@setOnItemSelectedListener true
             }
         }
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.action_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val curId: Int = item.getItemId()
+        when (curId) {
+            R.id.menu_setting -> {
+                val intent = Intent(applicationContext, SettingActivity::class.java)
+                startActivity(intent)
+            }
+            else -> {}
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
