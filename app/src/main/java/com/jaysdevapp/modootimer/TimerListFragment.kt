@@ -1,6 +1,7 @@
 package com.jaysdevapp.modootimer
 
-import android.content.SharedPreferences
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.SetOptions
@@ -21,49 +23,64 @@ import java.time.format.DateTimeFormatter
 
 class   TimerListFragment : Fragment() {
 
-    //TOdo 닉네임 설정 다이얼로그 호출 ✅
-    //TODO 닉네임 중복 검사 checkBtn ✅
-    //TODO  not중복 : db/shared 저장 ✅
-    //TODO 닉네임 제한 (길이)
-    //TOdo 리사이클러 뷰 ✅
-
-
+    //TOdo 데이터 추가 후 리사이클러 자동 업데이트 = notifi 안먹힘
+    //TODO 새타이머 추가 후 프래그먼트 업데이트 = onstart 하지 않음
+    //TODO 로그아웃 후 기존 보이던 데이터 없애주기 (설정 화면 액티비티에서 돌아오면 )=
+    
     companion object {
         fun newInstance() = TimerListFragment()
-        lateinit var preferences: UserUtil
     }
 
     private lateinit var viewModel: TimerListViewModel
     private lateinit var binding: FragmentTimerListBinding
-    private lateinit var name : String
     private var myAdpater = MyTimerAdapter(arrayListOf())
-
+    private lateinit var contxt :Context
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentTimerListBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(TimerListViewModel::class.java)
-        preferences = UserUtil(activity!!.applicationContext)
-        name = preferences.getString("userNm", "")
+        contxt =activity!!.applicationContext
+
         setRecycler()
+        viewModel.getUserId(contxt)
+        viewModel.userId.observe(this, Observer { name ->
+            if(name.isNotBlank()){
+                viewModel.dataUpdate(name)
+                viewModel.livedata.observe(this){
+                    myAdpater.updateTimer(it)
+                }
 
-        if(name.isNotBlank()){
-            viewModel.dataUpdate(name)
-            viewModel.livedata.observe(this){
-                myAdpater.updateTimer(it)
+                binding.addFloatingButton.setOnClickListener {showDialog()}
+                binding.swiperefresh.setOnRefreshListener {
+                    viewModel.dataUpdate(name)
+                    viewModel.livedata.observe(this){
+                        myAdpater.updateTimer(it)
+                    }
+                    binding.swiperefresh.isRefreshing=false
+                }
+
+            }else{
+                binding.addFloatingButton.setOnClickListener {showNameDialog()}
+                binding.swiperefresh.setOnRefreshListener {
+                    binding.swiperefresh.isRefreshing=false
+                }
             }
-        }
+        })
 
-        binding.addFloatingButton.setOnClickListener {
-            if (name.isBlank()) showNameDialog()
-            else    showDialog()
-        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("TimerListFragment","onStart() called")
+        viewModel.getUserId(contxt)
     }
 
     fun setRecycler(){
@@ -94,8 +111,7 @@ class   TimerListFragment : Fragment() {
                 val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm")
                 val formatted = current.format(formatter)
 
-                //TODO 회워아이디와 타이머 아이디 생성
-                db.collection("List").document(name)
+                db.collection("List").document(viewModel.userId.value.toString())
                     .collection("Timer").document()
                     .set(data, SetOptions.merge())
                     .addOnSuccessListener {
@@ -113,31 +129,12 @@ class   TimerListFragment : Fragment() {
         dialog.show(requireActivity().supportFragmentManager, "AddTimer")
     }
     private fun showNameDialog() {
-        val dialog = AddUserNameDialog()
+        val dialog = LoginDialog()
 
-        dialog.setOnClickListener(object : AddUserNameDialog.OnDialogClickListener {
-            override fun onClicked(name: String,flag : Boolean) {
-                if(flag) {
-                    val db = Firebase.firestore
-                    val data = hashMapOf(
-                        "name" to name,
-                    )
-
-                    //TODO 회워아이디와 타이머 아이디 생성
-                    db.collection("User").document(name)
-                        .set(data, SetOptions.merge())
-                        .addOnSuccessListener {
-                            Toast.makeText(context, R.string.saveSuccess, Toast.LENGTH_LONG).show()
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(context, R.string.saveFailure, Toast.LENGTH_LONG).show()
-                        }
-
-                preferences.setString("userNm",name)
-
-                }else{
-
-                }
+        dialog.setOnClickListener(object : LoginDialog.OnDialogClickListener {
+            override fun onClicked(name: String) {
+                viewModel.addName("userNm",name)
+                viewModel.getUserId(contxt)
             }
         })
         dialog.show(requireActivity().supportFragmentManager, "AddName")

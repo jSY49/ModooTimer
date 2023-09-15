@@ -34,4 +34,13 @@
 
     <string name="Title" translatable="false">Title</string>
 
+    <string name="InfoLogin">Log in to save your timer.</string>
+    <string name="idInfo">your ID</string>
+    <string name="pwInfo">your password</string>
+    <string name="logout">logout</string>
+    <string name="login">login</string>
+    <string name="gotosignup">Go for a simple membership >></string>
+    <string name="askFill">Please fill in the blanks.</string>
+    <string name="Loginfailed">Login failed. Please check your login information.</string>
+
 </resources>

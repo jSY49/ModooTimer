@@ -21,4 +21,12 @@
     <string name="nameInfo">"사용자 이름은 타이머를 저장하는 데 사용됩니다. "</string>
     <string name="namechck_true">"사용 가능한 이름입니다. "</string>
     <string name="namechck_false">"이미 존재하는 이름입니다. "</string>
+    <string name="logout">로그아웃</string>
+    <string name="InfoLogin">로그인해서 타이머를 저장해보세요.</string>
+    <string name="idInfo">아이디</string>
+    <string name="pwInfo">버밀번호</string>
+    <string name="login">로그인</string>
+    <string name="gotosignup">간단한 회원가입 하러가기>></string>
+    <string name="askFill">빈칸을 모두 채워주세요.</string>
+    <string name="Loginfailed">"로그인 실패. 로그인 정보를 다시 확인해주세요. "</string>
 </resources>

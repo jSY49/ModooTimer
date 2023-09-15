@@ -12,10 +12,19 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
     </style>
     
     <style name="numverPickerStyle">
         <item name="android:textSize" > 26sp</item>
         <item name="android:textColorPrimary">@color/green</item>
     </style>
+
+    <style name="MyEditTextTheme">
+        <item name="colorControlNormal">#9e9e9e</item>
+        <item name="android:textColorHint">#9e9e9e</item>
+    </style>
+
+
+
 </resources>

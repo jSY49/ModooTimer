@@ -10,14 +10,14 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:padding="10dp"
-    tools:context=".AddUserNameDialog">
+    tools:context=".LoginDialog">
 
     <TextView
         android:id="@+id/Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/UserName"
+        android:text="@string/InfoLogin"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -33,36 +33,42 @@
         app:layout_constraintTop_toBottomOf="@+id/Title">
 
         <EditText
-            android:id="@+id/NameEdit"
+            android:id="@+id/id_Textview"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/checkBtn"
-            android:hint="@string/askUserName"
+            android:hint="@string/idInfo"
+            android:drawableLeft="@drawable/baseline_perm_identity_24"
+            android:drawablePadding="10dp"
             android:imeOptions="actionDone"
             android:inputType="text"
-            android:paddingHorizontal="20dp"
             android:singleLine="true" />
 
-        <ImageButton
-            android:id="@+id/checkBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/baseline_check_box_24"
-            android:backgroundTint="@color/lightGreen"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginHorizontal="10dp"/>
+        <EditText
+            android:id="@+id/password_Textview"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/pwInfo"
+            android:drawableLeft="@drawable/baseline_password_24"
+            android:drawablePadding="10dp"
+            android:layout_below="@+id/id_Textview"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:singleLine="true" />
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/NameInfo"
+    <Button
+        android:id="@+id/signupBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="@string/nameInfo"
+        android:text="@string/gotosignup"
         android:textColor="@color/black"
+        android:shadowRadius="7.0"
+        android:shadowDx="7.0"
+        android:shadowDy="7.0"
+        android:shadowColor="@color/gray"
+        android:background="#00FFFFFF"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/relay"
@@ -74,7 +80,7 @@
         android:layout_margin="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NameInfo">
+        app:layout_constraintTop_toBottomOf="@+id/signupBtn">
 
         <Button
             android:id="@+id/cancel_Button"
@@ -90,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="@string/save" />
+            android:text="@string/login" />
     </LinearLayout>
 
 
