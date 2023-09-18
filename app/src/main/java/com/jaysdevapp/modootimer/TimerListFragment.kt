@@ -23,10 +23,6 @@ import java.time.format.DateTimeFormatter
 
 class   TimerListFragment : Fragment() {
 
-    //TOdo 데이터 추가 후 리사이클러 자동 업데이트 = notifi 안먹힘
-    //TODO 새타이머 추가 후 프래그먼트 업데이트 = onstart 하지 않음
-    //TODO 로그아웃 후 기존 보이던 데이터 없애주기 (설정 화면 액티비티에서 돌아오면 )=
-    
     companion object {
         fun newInstance() = TimerListFragment()
     }
@@ -35,6 +31,9 @@ class   TimerListFragment : Fragment() {
     private lateinit var binding: FragmentTimerListBinding
     private var myAdpater = MyTimerAdapter(arrayListOf())
     private lateinit var contxt :Context
+    private var userName : String = ""
+    private var data : ArrayList<timerData> = arrayListOf()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,36 +50,44 @@ class   TimerListFragment : Fragment() {
 
         setRecycler()
         viewModel.getUserId(contxt)
+        dataObserve()
+    }
+
+    private fun dataObserve() {
         viewModel.userId.observe(this, Observer { name ->
             if(name.isNotBlank()){
-                viewModel.dataUpdate(name)
+                userName = name
+                viewModel.dataUpdate(userName)
+                data.clear()
                 viewModel.livedata.observe(this){
-                    myAdpater.updateTimer(it)
+                    data = it
+                    Log.d("TimerListFragment","${data}")
+                    myAdpater.updateTimer(data)
                 }
 
                 binding.addFloatingButton.setOnClickListener {showDialog()}
                 binding.swiperefresh.setOnRefreshListener {
-                    viewModel.dataUpdate(name)
-                    viewModel.livedata.observe(this){
-                        myAdpater.updateTimer(it)
-                    }
+                    viewModel.dataUpdate(userName)
                     binding.swiperefresh.isRefreshing=false
                 }
 
             }else{
+                data.clear()
+                myAdpater.updateTimer(data)
                 binding.addFloatingButton.setOnClickListener {showNameDialog()}
                 binding.swiperefresh.setOnRefreshListener {
                     binding.swiperefresh.isRefreshing=false
                 }
             }
         })
-
     }
 
     override fun onStart() {
         super.onStart()
         Log.d("TimerListFragment","onStart() called")
+        userName=""
         viewModel.getUserId(contxt)
+        Log.d("TimerListFragment","onStart_ userName: ${viewModel.userId.value}")
     }
 
     fun setRecycler(){
@@ -116,6 +123,8 @@ class   TimerListFragment : Fragment() {
                     .set(data, SetOptions.merge())
                     .addOnSuccessListener {
                         Toast.makeText(context, R.string.saveSuccess, Toast.LENGTH_LONG).show()
+                        viewModel.dataUpdate(userName)
+                        Log.d("TimerListFragment","onClicked tName : $userName")
                     }
                     .addOnFailureListener {
                         Toast.makeText(context, R.string.saveFailure, Toast.LENGTH_LONG).show()
