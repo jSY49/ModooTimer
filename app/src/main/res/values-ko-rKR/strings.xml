@@ -8,7 +8,7 @@
     <string name="sec">초</string>
     <string name="start">시작</string>
     <string name="pause">일시 중지</string>
-    <string name="cancle">취소</string>
+    <string name="cancel">취소</string>
     <string name="done">해제</string>
     <string name="replay">다시 시작</string>
     <string name="add">추가하기</string>
@@ -17,16 +17,23 @@
     <string name="saveFailure">저장에 실패했습니다. 다시 시도해 주세요.</string>
     <string name="saveSuccess">"저장에 성공했습니다. "</string>
     <string name="UserName">이름 설정하기</string>
-    <string name="askUserName">사용자 이름을 입력해주세요.</string>
+    <string name="askUserName">사용자 이름(아이디)을 입력해주세요.</string>
     <string name="nameInfo">"사용자 이름은 타이머를 저장하는 데 사용됩니다. "</string>
     <string name="namechck_true">"사용 가능한 이름입니다. "</string>
     <string name="namechck_false">"이미 존재하는 이름입니다. "</string>
     <string name="logout">로그아웃</string>
     <string name="InfoLogin">로그인해서 타이머를 저장해보세요.</string>
     <string name="idInfo">아이디</string>
-    <string name="pwInfo">버밀번호</string>
+    <string name="pwInfo">비밀번호</string>
     <string name="login">로그인</string>
     <string name="gotosignup">간단한 회원가입 하러가기>></string>
     <string name="askFill">빈칸을 모두 채워주세요.</string>
     <string name="Loginfailed">"로그인 실패. 로그인 정보를 다시 확인해주세요. "</string>
+    <string name="signUpInfo">간단 회원가입</string>
+    <string name="askUserPassword">비밀번호를 입력해 주세요.</string>
+    <string name="askUserPassword_again">비밀번호를 한번 더 입력해 주세요.</string>
+    <string name="namechckInfo">이름(아이디) 확인을 진행해 주세요.</string>
+    <string name="passwordchckInfo">"동일한 비밀번호를 입력해야 합니다. "</string>
+    <string name="pwchck_true">"비밀번호가 일치합니다. "</string>
+    <string name="pwchck_false">"비밀번호가 일치하지 않습니다. "</string>
 </resources>

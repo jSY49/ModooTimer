@@ -10,7 +10,7 @@
 
     <string name="start">start</string>
     <string name="pause">pause</string>
-    <string name="cancle">cancel</string>
+    <string name="cancel">cancel</string>
     <string name="done">done</string>
     <string name="replay">restart</string>
 
@@ -26,11 +26,17 @@
     <string name="saveSuccess">Success to save data.</string>
 
     <string name="UserName">Setting your name!</string>
-    <string name="askUserName">Input your Name</string>
+    <string name="askUserName">Input your ID.</string>
+    <string name="askUserPassword">Please Input your password.</string>
+    <string name="askUserPassword_again">Please Input your password again.</string>
     <string name="nameInfo">"User name is used to save your Timer. "</string>
 
-    <string name="namechck_true">This name is available.</string>
-    <string name="namechck_false">This name already exists.</string>
+    <string name="namechck_true">This ID is available.</string>
+    <string name="namechck_false">This ID already exists.</string>
+    <string name="namechckInfo">Please check your Id.</string>
+    <string name="passwordchckInfo">You must enter the same password.</string>
+    <string name="pwchck_true">The Password match.</string>
+    <string name="pwchck_false">Password do not match.</string>
 
     <string name="Title" translatable="false">Title</string>
 
@@ -42,5 +48,7 @@
     <string name="gotosignup">Go for a simple membership >></string>
     <string name="askFill">Please fill in the blanks.</string>
     <string name="Loginfailed">Login failed. Please check your login information.</string>
+
+    <string name="signUpInfo">Simple Signup</string>
 
 </resources>

@@ -52,7 +52,7 @@
             android:drawablePadding="10dp"
             android:layout_below="@+id/id_Textview"
             android:imeOptions="actionDone"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:singleLine="true" />
 
     </RelativeLayout>
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="@string/cancle" />
+            android:text="@string/cancel" />
 
         <Button
             android:id="@+id/save_Button"

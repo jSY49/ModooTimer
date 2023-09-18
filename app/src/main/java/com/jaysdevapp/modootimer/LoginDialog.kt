@@ -101,11 +101,11 @@ class LoginDialog : DialogFragment() {
 
         val db = Firebase.firestore
         db.collection("User")
-            .whereEqualTo("name",id)
+            .whereEqualTo("id",id)
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    if(pw.equals(document.data["password"].toString())) {
+                    if(pw.contentEquals(document.data["pw"].toString())) {
                         res.postValue(true)
                     }else{
                         res.postValue(false)
