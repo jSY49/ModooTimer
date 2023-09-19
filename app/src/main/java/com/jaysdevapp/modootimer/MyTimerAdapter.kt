@@ -1,14 +1,18 @@
 package com.jaysdevapp.modootimer
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.jaysdevapp.modootimer.databinding.TimerItemBinding
 
 
-class MyTimerAdapter(private var datas: ArrayList<timerData>) :
+class MyTimerAdapter(
+    private val con: FragmentActivity?,
+    private var datas: ArrayList<timerData>,
+    private var timerListFragment: TimerListFragment
+) :
     RecyclerView.Adapter<MyTimerAdapter.MyViewHolder>() {
 
     val TAG = "MyMovieAdapter"
@@ -26,10 +30,19 @@ class MyTimerAdapter(private var datas: ArrayList<timerData>) :
         private val context = binding.root.context
 
         fun bind(currentdata: List<timerData>) {
-            binding.timerNm.text= currentdata.get(position).name
-//            itemView.setOnClickListener{
-//
-//            }
+            binding.timerNm.text= currentdata[position].name
+
+            binding.deleteImageButton.setOnClickListener{
+                val builder = timerListFragment.deleteDialog(currentdata.get(position))
+                 builder.show()
+                //TODO  리사이클러 아이템 삭제
+            }
+            binding.modifyImageButton.setOnClickListener {
+                //todo 데이터 수정 dialog
+            }
+            binding.playImageButton.setOnClickListener {
+                //프래그먼트 이동(데이터 가지고)
+            }
 
         }
     }
@@ -53,6 +66,7 @@ class MyTimerAdapter(private var datas: ArrayList<timerData>) :
     override fun getItemCount(): Int {
         return datas.size
     }
+
 
 
 }

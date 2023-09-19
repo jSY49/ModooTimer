@@ -51,4 +51,7 @@
 
     <string name="signUpInfo">Simple Signup</string>
 
+    <string name="deleteInfo">Delete Timer</string>
+    <string name="askDelete">Are you sure you want to delete  \"%1$s\" Timer ?</string>
+
 </resources>

@@ -1,6 +1,8 @@
 package com.jaysdevapp.modootimer
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -29,7 +31,7 @@ class   TimerListFragment : Fragment() {
 
     private lateinit var viewModel: TimerListViewModel
     private lateinit var binding: FragmentTimerListBinding
-    private var myAdpater = MyTimerAdapter(arrayListOf())
+    private lateinit var myAdpater : MyTimerAdapter
     private lateinit var contxt :Context
     private var userName : String = ""
     private var data : ArrayList<timerData> = arrayListOf()
@@ -46,8 +48,8 @@ class   TimerListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(TimerListViewModel::class.java)
-        contxt =activity!!.applicationContext
-
+        contxt = activity!!.applicationContext
+        myAdpater = MyTimerAdapter(this.activity,arrayListOf(),this)
         setRecycler()
         viewModel.getUserId(contxt)
         dataObserve()
@@ -149,4 +151,31 @@ class   TimerListFragment : Fragment() {
         dialog.show(requireActivity().supportFragmentManager, "AddName")
     }
 
+    fun deleteDialog(data: timerData): AlertDialog.Builder {
+        val actvty = this.activity
+        val builder = AlertDialog.Builder(actvty)
+        builder
+            .setTitle(actvty!!.resources.getString(R.string.deleteInfo))
+            .setMessage(actvty.resources.getString(R.string.askDelete,data.name))
+            .setCancelable(false)
+            .setPositiveButton("확인") { p0, p1 ->
+                val name = TimerListViewModel.preferences.getString("userNm","")
+                val db = Firebase.firestore
+                db.collection("List").document(name).collection("Timer").document(data.id)
+                    .delete()
+                    .addOnSuccessListener {
+                        userName=""
+                        viewModel.getUserId(contxt)
+                        Toast.makeText(contxt,"삭제 완료되었습니다.",Toast.LENGTH_LONG).show()
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(contxt,"삭제 실패.",Toast.LENGTH_LONG).show()
+                        Log.w(TAG, "Error deleting document", e) }
+            }
+            .setNegativeButton("취소") { p0, p1 -> }
+            .create()
+        return builder
+
+
+    }
 }

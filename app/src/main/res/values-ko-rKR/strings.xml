@@ -36,4 +36,6 @@
     <string name="passwordchckInfo">"동일한 비밀번호를 입력해야 합니다. "</string>
     <string name="pwchck_true">"비밀번호가 일치합니다. "</string>
     <string name="pwchck_false">"비밀번호가 일치하지 않습니다. "</string>
+    <string name="deleteInfo">타이머 삭제</string>
+    <string name="askDelete">정말 \"%1$s\"를 삭제하시겠습니까?</string>
 </resources>
