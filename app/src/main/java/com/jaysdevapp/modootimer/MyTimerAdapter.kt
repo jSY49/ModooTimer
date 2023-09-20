@@ -35,13 +35,13 @@ class MyTimerAdapter(
             binding.deleteImageButton.setOnClickListener{
                 val builder = timerListFragment.deleteDialog(currentdata.get(position))
                  builder.show()
-                //TODO  리사이클러 아이템 삭제
             }
             binding.modifyImageButton.setOnClickListener {
-                //todo 데이터 수정 dialog
+                timerListFragment.showDialog(currentdata.get(position))
             }
             binding.playImageButton.setOnClickListener {
-                //프래그먼트 이동(데이터 가지고)
+                //todo 프래그먼트 이동(데이터 가지고)
+
             }
 
         }
@@ -66,7 +66,6 @@ class MyTimerAdapter(
     override fun getItemCount(): Int {
         return datas.size
     }
-
 
 
 }

@@ -7,10 +7,13 @@ public class SetNumberPicker{
     NumberPicker picker1, picker2,picker3;
     int hour,min,sec;
 
-    SetNumberPicker(NumberPicker _picker1,NumberPicker _picker2,NumberPicker _picker3){
+    SetNumberPicker(NumberPicker _picker1,NumberPicker _picker2,NumberPicker _picker3,int H, int M,int S){
         picker1 = _picker1;
         picker2 = _picker2;
         picker3 = _picker3;
+        hour = H;
+        min = M;
+        sec = S;
     }
 
     public int getHour() {
@@ -33,6 +36,10 @@ public class SetNumberPicker{
         picker1.setMinValue(0);
         picker2.setMinValue(0);
         picker3.setMinValue(0);
+
+        picker1.setValue(hour);
+        picker2.setValue(min);
+        picker3.setValue(sec);
 
         picker1.setWrapSelectorWheel(true);
         picker2.setWrapSelectorWheel(true);

@@ -17,11 +17,13 @@ import androidx.fragment.app.DialogFragment
 import com.jaysdevapp.modootimer.databinding.FragmentAddListDialogBinding
 
 
-class AddListDialog : DialogFragment() {
+class AddListDialog(var tN :String, var tH : Int , var tM :Int ,var tS: Int) : DialogFragment() {
 
     lateinit var numberPicker : SetNumberPicker
 
     private lateinit var onClickListener: OnDialogClickListener
+    private lateinit var binding: FragmentAddListDialogBinding
+
     fun setOnClickListener(listener: OnDialogClickListener)
     {
         onClickListener = listener
@@ -38,8 +40,6 @@ class AddListDialog : DialogFragment() {
         isCancelable = true
     }
 
-    private lateinit var binding: FragmentAddListDialogBinding
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,7 +52,8 @@ class AddListDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        numberPicker = SetNumberPicker(binding.numberPicker1,binding.numberPicker2,binding.numberPicker3)
+        binding.NameEdit.setText(tN)
+        numberPicker = SetNumberPicker(binding.numberPicker1,binding.numberPicker2,binding.numberPicker3,tH,tM,tS)
         numberPicker.setting()
 
         binding.cancelButton.setOnClickListener {

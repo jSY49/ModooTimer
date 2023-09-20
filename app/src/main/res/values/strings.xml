@@ -18,7 +18,7 @@
     <string name="colon" translatable="false">:</string>
     <string name="addlist" translatable="false">addList</string>
 
-    <string name="add">ADD</string>
+    <string name="add">Your Timer</string>
     <string name="name">Timer name</string>
     <string name="save">save</string>
 
