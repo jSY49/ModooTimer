@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -67,7 +68,7 @@ class   TimerListFragment : Fragment() {
                     myAdpater.updateTimer(data)
                 }
 
-                binding.addFloatingButton.setOnClickListener {showDialog()}
+                binding.addFloatingButton.setOnClickListener {showDialog(null) }
                 binding.swiperefresh.setOnRefreshListener {
                     viewModel.dataUpdate(userName)
                     binding.swiperefresh.isRefreshing=false
@@ -101,14 +102,20 @@ class   TimerListFragment : Fragment() {
         }
     }
 
-    private fun showDialog() {
-        val dialog = AddListDialog()
+    fun showDialog(data: timerData?) {
+
+        val dialog = if(data==null) AddListDialog("",0,0,0) else AddListDialog(data.name,data.hour.toInt(),data.min.toInt(),data.sec.toInt())
+        val db = Firebase.firestore
+
+        var ref = if(data==null) db.collection("List").document(viewModel.userId.value.toString()).collection("Timer").document()
+        else {
+            db.collection("List").document(viewModel.userId.value.toString()).collection("Timer").document(data.id)
+        }
 
         dialog.setOnClickListener(object : AddListDialog.OnDialogClickListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onClicked(tName: String, h: Int, m: Int, s: Int) {
 //                Toast.makeText(context,"$name : $h:$m:$s",Toast.LENGTH_LONG).show()
-                val db = Firebase.firestore
                 val data = hashMapOf(
                     "name" to tName,
                     "hour" to h,
@@ -116,13 +123,12 @@ class   TimerListFragment : Fragment() {
                     "sec" to s
                 )
 
+
                 val current = LocalDateTime.now()
                 val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm")
                 val formatted = current.format(formatter)
 
-                db.collection("List").document(viewModel.userId.value.toString())
-                    .collection("Timer").document()
-                    .set(data, SetOptions.merge())
+                ref.set(data, SetOptions.merge())
                     .addOnSuccessListener {
                         Toast.makeText(context, R.string.saveSuccess, Toast.LENGTH_LONG).show()
                         viewModel.dataUpdate(userName)

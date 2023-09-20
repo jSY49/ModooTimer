@@ -49,7 +49,7 @@ class BasicTimerFragment : Fragment() {
         viewModel = ViewModelProvider(this)[BasicTimerViewModel::class.java]
 
         setNotification()
-        numberPicker = SetNumberPicker(_binding.numberPicker1,_binding.numberPicker2,_binding.numberPicker3)
+        numberPicker = SetNumberPicker(_binding.numberPicker1,_binding.numberPicker2,_binding.numberPicker3,0,0,0)
         numberPicker.setting()
 
         _binding.startButton.setOnClickListener { startButtonClick() }
