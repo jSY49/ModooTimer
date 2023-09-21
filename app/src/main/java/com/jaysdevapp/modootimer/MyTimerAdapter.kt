@@ -41,7 +41,7 @@ class MyTimerAdapter(
             }
             binding.playImageButton.setOnClickListener {
                 //todo 프래그먼트 이동(데이터 가지고)
-
+                timerListFragment.goListTimer(currentdata.get(position))
             }
 
         }

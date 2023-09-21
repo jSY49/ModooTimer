@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -13,10 +14,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -24,11 +25,8 @@ import com.jaysdevapp.modootimer.databinding.FragmentTimerListBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class   TimerListFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = TimerListFragment()
-    }
+class   TimerListFragment : Fragment() {
 
     private lateinit var viewModel: TimerListViewModel
     private lateinit var binding: FragmentTimerListBinding
@@ -64,7 +62,6 @@ class   TimerListFragment : Fragment() {
                 data.clear()
                 viewModel.livedata.observe(this){
                     data = it
-                    Log.d("TimerListFragment","${data}")
                     myAdpater.updateTimer(data)
                 }
 
@@ -87,10 +84,8 @@ class   TimerListFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        Log.d("TimerListFragment","onStart() called")
         userName=""
         viewModel.getUserId(contxt)
-        Log.d("TimerListFragment","onStart_ userName: ${viewModel.userId.value}")
     }
 
     fun setRecycler(){
@@ -132,7 +127,6 @@ class   TimerListFragment : Fragment() {
                     .addOnSuccessListener {
                         Toast.makeText(context, R.string.saveSuccess, Toast.LENGTH_LONG).show()
                         viewModel.dataUpdate(userName)
-                        Log.d("TimerListFragment","onClicked tName : $userName")
                     }
                     .addOnFailureListener {
                         Toast.makeText(context, R.string.saveFailure, Toast.LENGTH_LONG).show()
@@ -183,5 +177,13 @@ class   TimerListFragment : Fragment() {
         return builder
 
 
+    }
+
+    fun goListTimer(data: timerData) {
+        val intent = Intent(activity, ListPlayActivity::class.java)
+        intent.putExtra("hour",data.hour.toInt())
+        intent.putExtra("min",data.min.toInt())
+        intent.putExtra("sec",data.sec.toInt())
+        startActivity(intent)
     }
 }
