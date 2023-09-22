@@ -181,6 +181,7 @@ class   TimerListFragment : Fragment() {
 
     fun goListTimer(data: timerData) {
         val intent = Intent(activity, ListPlayActivity::class.java)
+        intent.putExtra("name",data.name)
         intent.putExtra("hour",data.hour.toInt())
         intent.putExtra("min",data.min.toInt())
         intent.putExtra("sec",data.sec.toInt())
