@@ -9,28 +9,25 @@ import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.DialogFragment
 import com.jaysdevapp.modootimer.databinding.FragmentAddListDialogBinding
 
 
-class AddListDialog(var tN :String, var tH : Int , var tM :Int ,var tS: Int) : DialogFragment() {
+class AddListDialog(var tN :String, var tH : Int , var tM :Int ,var tS: Int , var checkId :Int) : DialogFragment() {
 
     lateinit var numberPicker : SetNumberPicker
 
     private lateinit var onClickListener: OnDialogClickListener
     private lateinit var binding: FragmentAddListDialogBinding
-
+    private var checkIdFlag = R.id.radioButton_private
     fun setOnClickListener(listener: OnDialogClickListener)
     {
         onClickListener = listener
     }
     interface OnDialogClickListener
     {
-        fun onClicked(name: String, tHour:Int, tMin: Int, tSec:Int)
+        fun onClicked(name: String, tHour:Int, tMin: Int, tSec:Int, flag : Int)
     }
 
 
@@ -55,13 +52,14 @@ class AddListDialog(var tN :String, var tH : Int , var tM :Int ,var tS: Int) : D
         binding.NameEdit.setText(tN)
         numberPicker = SetNumberPicker(binding.numberPicker1,binding.numberPicker2,binding.numberPicker3,tH,tM,tS)
         numberPicker.setting()
+        binding.radiogroup.check(checkId)
 
         binding.cancelButton.setOnClickListener {
             dialog?.dismiss()
         }
         binding.saveButton.setOnClickListener {
             if(!binding.NameEdit.text.isBlank()){
-                onClickListener.onClicked(binding.NameEdit.text.toString(),numberPicker.getHour(),numberPicker.getMin(),numberPicker.getSec())
+                onClickListener.onClicked(binding.NameEdit.text.toString(),numberPicker.getHour(),numberPicker.getMin(),numberPicker.getSec(),checkIdFlag)
                 dismiss()
             }
 
@@ -81,6 +79,10 @@ class AddListDialog(var tN :String, var tH : Int , var tM :Int ,var tS: Int) : D
             }
 
             handled
+        }
+
+        binding.radiogroup.setOnCheckedChangeListener { radioGroup, i ->
+            checkIdFlag = i
         }
     }
 

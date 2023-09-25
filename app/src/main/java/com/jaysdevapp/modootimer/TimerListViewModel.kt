@@ -37,7 +37,9 @@ class TimerListViewModel : ViewModel() {
                         doc.data["name"].toString(),
                         doc.data["hour"].toString(),
                         doc.data["minute"].toString(),
-                        doc.data["sec"].toString())
+                        doc.data["sec"].toString(),
+                        doc.data["checkId"].toString().toInt()
+                        )
                     )
                 }
                 livedata.postValue(arr)

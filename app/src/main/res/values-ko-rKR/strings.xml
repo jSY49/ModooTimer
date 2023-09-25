@@ -38,4 +38,7 @@
     <string name="pwchck_false">"비밀번호가 일치하지 않습니다. "</string>
     <string name="deleteInfo">타이머 삭제</string>
     <string name="askDelete">정말 \"%1$s\"를 삭제하시겠습니까?</string>
+    <string name="selectOff">비공개</string>
+    <string name="selectON">공개</string>
+    <string name="onOff">공개/비공개</string>
 </resources>

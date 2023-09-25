@@ -99,7 +99,7 @@ class   TimerListFragment : Fragment() {
 
     fun showDialog(data: timerData?) {
 
-        val dialog = if(data==null) AddListDialog("",0,0,0) else AddListDialog(data.name,data.hour.toInt(),data.min.toInt(),data.sec.toInt())
+        val dialog = if(data==null) AddListDialog("",0,0,0,R.id.radioButton_private) else AddListDialog(data.name,data.hour.toInt(),data.min.toInt(),data.sec.toInt(),data.checkId)
         val db = Firebase.firestore
 
         var ref = if(data==null) db.collection("List").document(viewModel.userId.value.toString()).collection("Timer").document()
@@ -109,13 +109,14 @@ class   TimerListFragment : Fragment() {
 
         dialog.setOnClickListener(object : AddListDialog.OnDialogClickListener {
             @RequiresApi(Build.VERSION_CODES.O)
-            override fun onClicked(tName: String, h: Int, m: Int, s: Int) {
+            override fun onClicked(tName: String, h: Int, m: Int, s: Int , checkId : Int) {
 //                Toast.makeText(context,"$name : $h:$m:$s",Toast.LENGTH_LONG).show()
                 val data = hashMapOf(
                     "name" to tName,
                     "hour" to h,
                     "minute" to m,
-                    "sec" to s
+                    "sec" to s,
+                    "checkId" to checkId
                 )
 
 

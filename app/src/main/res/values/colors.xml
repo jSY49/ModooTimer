@@ -10,12 +10,13 @@
 
     <color name="green">#26A69A</color>
     <color name="darkgreen">#1C776E</color>
-    <color name="gray">#989898</color>
+    <color name="gray">#BCB9B9</color>
     <color name="red">#FF0000</color>
     <color name="darkred">#B30101</color>
 
     <color name="yellowGreen">#C8E6C9</color>
-    <color name="lightGreen">#AEE4AF</color>
+    <color name="lightGreen">#A4E6A5</color>
+    <color name="grassGreen">#269828</color>
 
     <color name="blue">#0023FF</color>
 

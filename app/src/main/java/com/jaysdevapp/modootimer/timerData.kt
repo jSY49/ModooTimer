@@ -5,5 +5,6 @@ data class timerData(
     var name: String,
     var hour: String,
     var min: String,
-    var sec: String
+    var sec: String,
+    var checkId : Int
 )

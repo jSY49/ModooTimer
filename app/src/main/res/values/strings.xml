@@ -53,7 +53,11 @@
 
     <string name="deleteInfo">Delete Timer</string>
     <string name="askDelete">Are you sure you want to delete  \"%1$s\" Timer ?</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="selectOff">PRIVATE</string>
+    <string name="selectON">PUBLIC</string>
+    <string name="onOff">ON/OFF</string>
+
+
 
 </resources>
