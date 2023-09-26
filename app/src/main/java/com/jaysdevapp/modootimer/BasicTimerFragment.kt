@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.jaysdevapp.modootimer.databinding.FragmentBasicTimerBinding
@@ -20,10 +21,6 @@ import java.util.*
 import kotlin.concurrent.timer
 
 class BasicTimerFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = BasicTimerFragment()
-    }
 
     private lateinit var viewModel: BasicTimerViewModel
     private lateinit var binding: FragmentBasicTimerBinding
@@ -42,7 +39,7 @@ class BasicTimerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentBasicTimerBinding.inflate(layoutInflater, container, false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_basic_timer, container, false)
         return binding.root
     }
 
@@ -84,6 +81,9 @@ class BasicTimerFragment : Fragment() {
         Log.d("BasicTimerFragment","pauseButtonClick - pauseFlag : $pauseFlag")
         if(pauseFlag) {  //정지 상태
             timer?.cancel()
+            co?.cancel()
+            binding.cntTextview.clearAnimation()
+            binding.cntTextview.visibility=View.INVISIBLE
             binding.pauseButton.text = resources.getString(R.string.replay)
         }else{//다시 시작
             tmpS+=1
@@ -94,14 +94,18 @@ class BasicTimerFragment : Fragment() {
     }
 
     private fun cancelButtonClick() {
-        //1. 타이머 정지
-        timer?.cancel()
-        //2. layout 변경
-        binding.stopLayout.visibility = View.VISIBLE
-        binding.TimerLayout.visibility = View.GONE
-        binding.cntTextview.visibility=View.GONE
-
-        co?.cancel()
+        //카운트다운 정지
+        co?.let {
+            binding.cntTextview.clearAnimation()
+            binding.cntTextview.visibility=View.INVISIBLE
+            it.cancel()
+        }
+        //타이머 정지
+        timer?.let {
+            binding.TimerLayout.visibility = View.INVISIBLE
+            binding.stopLayout.visibility = View.VISIBLE
+            it.cancel()
+        }
         vibrator.cancel()
         ringtone.stop()
     }
@@ -113,11 +117,9 @@ class BasicTimerFragment : Fragment() {
         var sec  = numberPicker.getSec()
         binding.pauseButton.text = resources.getString(R.string.pause)
         if (hour != 0 || min != 0 || sec != 0) {
-            binding.stopLayout.visibility = View.GONE
+            binding.stopLayout.visibility = View.INVISIBLE
             binding.TimerLayout.visibility = View.VISIBLE
-            binding.hourTv.text = hour.toString()
-            binding.minTv.text = min.toString()
-            binding.secTv.text = sec.toString()
+            binding.timer =TIMER(hour,min,sec)
 
             tmpH = hour
             tmpM = min
@@ -137,8 +139,10 @@ class BasicTimerFragment : Fragment() {
     private fun runTimerTask() {
         timer?.cancel()
         binding.cntTextview.visibility=View.VISIBLE
+
         co = CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.Default) {
+
                 val anim = AnimationUtils.loadAnimation(activity?.applicationContext,R.anim.fade_in)
                 for(i in 3 downTo 1){
                     activity?.runOnUiThread {
@@ -148,52 +152,35 @@ class BasicTimerFragment : Fragment() {
                     delay(1000)
                 }
             }
-            binding.cntTextview.visibility=View.GONE
+            binding.cntTextview.clearAnimation()
+            binding.cntTextview.visibility=View.INVISIBLE
         }
 
         timer = timer(period = 1000, initialDelay = 3000) {
             // 0초 이상이면
             if (tmpS != 0) {
                 //1초씩 감소
-                tmpS--;
+                tmpS--
 
                 // 0분 이상이면
             } else if (tmpM != 0) {
                 // 1분 = 60초
-                tmpS = 60;
-                tmpS--;
-                tmpM--;
+                tmpS = 60
+                tmpS--
+                tmpM--
 
                 // 0시간 이상이면
             } else if (tmpH != 0) {
                 // 1시간 = 60분
-                tmpS = 60;
-                tmpM = 60;
-                tmpS--;
-                tmpM--;
-                tmpH--;
+                tmpS = 60
+                tmpM = 60
+                tmpS--
+                tmpM--
+                tmpH--
             }
 
             activity?.runOnUiThread{
-                // UI 조작
-                if(tmpS <= 9){
-                    binding.secTv.text=("0$tmpS")
-                } else {
-                    binding.secTv.text= tmpS.toString()
-                }
-
-                if(tmpM <= 9){
-                    binding.minTv.text=("0$tmpM");
-                } else {
-                    binding.minTv.text= tmpM.toString()
-                }
-
-                if(tmpH <= 9){
-                    binding.hourTv.text = "0$tmpH";
-                } else {
-                    binding.hourTv.text=(tmpH.toString());
-                }
-
+                binding.timer = TIMER(tmpH,tmpM,tmpS)
                 // 시분초가 다 0이라면 toast를 띄우고 타이머를 종료한다..
                 if(tmpH == 0 && tmpM == 0 && tmpS == 0) {
                     val vloop = longArrayOf(600,300)//600진동 300 대기
@@ -202,7 +189,7 @@ class BasicTimerFragment : Fragment() {
                     ringtone.play()
 
                     binding.cancelButton.text=resources.getString(R.string.done)
-                    binding.pauseButton.visibility=View.GONE
+                    binding.pauseButton.visibility=View.INVISIBLE
                 }
             }
         }

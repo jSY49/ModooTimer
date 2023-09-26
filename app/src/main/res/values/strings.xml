@@ -58,6 +58,7 @@
     <string name="selectON">PUBLIC</string>
     <string name="onOff">ON/OFF</string>
 
+    <string name="number" translatable="false">%02d</string>
 
 
 </resources>
