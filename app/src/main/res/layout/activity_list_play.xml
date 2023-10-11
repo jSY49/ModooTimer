@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListPlayActivity"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    tools:context=".ListPlayActivity">
 
     <TextView
         android:id="@+id/cntTextview"
@@ -24,10 +24,10 @@
 
 
     <TextView
-        android:layout_marginHorizontal="20dp"
         android:id="@+id/timer_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:gravity="center"
         android:textStyle="bold"
         android:theme="@style/numverPickerStyle"
@@ -48,7 +48,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
 
         <TextView
@@ -134,7 +133,6 @@
             android:textColor="@color/black" />
 
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
