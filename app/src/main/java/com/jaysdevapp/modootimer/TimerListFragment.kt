@@ -34,6 +34,7 @@ class   TimerListFragment : Fragment() {
     private lateinit var contxt :Context
     private var userName : String = ""
     private var data : ArrayList<timerData> = arrayListOf()
+    private val loadingDialog = CircleProgressDialog()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,16 +58,19 @@ class   TimerListFragment : Fragment() {
     private fun dataObserve() {
         viewModel.userId.observe(this, Observer { name ->
             if(name.isNotBlank()){
+                loadingDialog.show(activity!!.supportFragmentManager, loadingDialog.tag)
                 userName = name
                 viewModel.dataUpdate(userName)
                 data.clear()
                 viewModel.livedata.observe(this){
                     data = it
                     myAdpater.updateTimer(data)
+                    loadingDialog.dismiss()
                 }
 
                 binding.addFloatingButton.setOnClickListener {showDialog(null) }
                 binding.swiperefresh.setOnRefreshListener {
+                    loadingDialog.show(activity!!.supportFragmentManager, loadingDialog.tag)
                     viewModel.dataUpdate(userName)
                     binding.swiperefresh.isRefreshing=false
                 }
