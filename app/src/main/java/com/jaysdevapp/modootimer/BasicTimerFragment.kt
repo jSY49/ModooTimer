@@ -138,25 +138,10 @@ class BasicTimerFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun runTimerTask() {
         timer?.cancel()
-        binding.cntTextview.visibility=View.VISIBLE
 
-        co = CoroutineScope(Dispatchers.Main).launch {
-            withContext(Dispatchers.Default) {
+        startCont()
 
-                val anim = AnimationUtils.loadAnimation(activity?.applicationContext,R.anim.fade_in)
-                for(i in 3 downTo 1){
-                    activity?.runOnUiThread {
-                        binding.cntTextview.startAnimation(anim)
-                        binding.cntTextview.text=i.toString()
-                    }
-                    delay(1000)
-                }
-            }
-            binding.cntTextview.clearAnimation()
-            binding.cntTextview.visibility=View.INVISIBLE
-        }
-
-        timer = timer(period = 1000, initialDelay = 3000) {
+        timer = timer(period = 1000, initialDelay = 3200) {
             // 0초 이상이면
             if (tmpS != 0) {
                 //1초씩 감소
@@ -194,6 +179,24 @@ class BasicTimerFragment : Fragment() {
             }
         }
 
+    }
+    private fun startCont(){
+        binding.cntTextview.visibility=View.VISIBLE
+        co = CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.Default) {
+
+                val anim = AnimationUtils.loadAnimation(activity?.applicationContext,R.anim.fade_in)
+                for(i in 3 downTo 1){
+                    activity?.runOnUiThread {
+                        binding.cntTextview.startAnimation(anim)
+                        binding.cntTextview.text=i.toString()
+                    }
+                    delay(1000)
+                }
+            }
+            binding.cntTextview.clearAnimation()
+            binding.cntTextview.visibility=View.INVISIBLE
+        }
     }
 
 }
