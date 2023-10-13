@@ -8,8 +8,8 @@
 
     <ProgressBar
         android:id="@+id/circle_progress"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:indeterminateDrawable="@drawable/start_profressbar"
         android:indeterminateDuration="1000"
         android:padding="10dp"

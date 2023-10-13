@@ -16,7 +16,8 @@
             android:height="60dp"/>
         <gradient
             android:angle="0"
-            android:endColor="@color/lightGreen"
+            android:endColor="@color/grassGreen"
+            android:centerColor="@color/lightGreen"
             android:startColor="@color/white"
             android:type="linear"
             android:useLevel="false"

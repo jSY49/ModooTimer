@@ -1,138 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    tools:context=".ListPlayActivity">
 
-    <TextView
-        android:id="@+id/cntTextview"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="listplay"
+            type="com.jaysdevapp.modootimer.LISTPLAY" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:padding="30dp"
-        android:textColor="@color/black"
-        android:textSize="100sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:animateLayoutChanges="true"
+        tools:context=".ListPlayActivity">
 
-
-    <TextView
-        android:id="@+id/timer_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:theme="@style/numverPickerStyle"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/cntTextview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="30dp"
+            android:textColor="@color/black"
+            android:textSize="100sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
-            android:id="@+id/hourTv"
-            android:layout_width="0dp"
+            android:id="@+id/timer_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginHorizontal="20dp"
             android:gravity="center"
-            android:text="@string/zero"
             android:textStyle="bold"
-            android:theme="@style/numverPickerStyle" />
+            android:text="@{listplay.name}"
+            android:theme="@style/numverPickerStyle"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/colon1"
-            android:layout_width="0dp"
+
+        <LinearLayout
+            android:id="@+id/linearLayout_2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/colon"
-            android:textStyle="bold"
-            android:theme="@style/numverPickerStyle" />
-
-        <TextView
-            android:id="@+id/minTv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/zero"
-            android:textStyle="bold"
-            android:theme="@style/numverPickerStyle" />
-
-        <TextView
-            android:id="@+id/colon2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/colon"
-            android:textStyle="bold"
-            android:theme="@style/numverPickerStyle" />
-
-        <TextView
-            android:id="@+id/secTv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/zero"
-            android:textStyle="bold"
-            android:theme="@style/numverPickerStyle" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout_2">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/cancelButton"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_pressed_selector"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="horizontal"
             android:padding="10dp"
-            android:text="@string/cancel"
-            android:textColor="@color/black" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/pauseButton"
-            android:layout_width="150dp"
+
+            <TextView
+                android:id="@+id/hourTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@{@string/number(listplay.hour)}"
+                android:textStyle="bold"
+                android:theme="@style/numverPickerStyle" />
+
+            <TextView
+                android:id="@+id/colon1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/colon"
+                android:textStyle="bold"
+                android:theme="@style/numverPickerStyle" />
+
+            <TextView
+                android:id="@+id/minTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@{@string/number(listplay.min)}"
+                android:textStyle="bold"
+                android:theme="@style/numverPickerStyle" />
+
+            <TextView
+                android:id="@+id/colon2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/colon"
+                android:textStyle="bold"
+                android:theme="@style/numverPickerStyle" />
+
+            <TextView
+                android:id="@+id/secTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@{@string/number(listplay.sec)}"
+                android:textStyle="bold"
+                android:theme="@style/numverPickerStyle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/pause_button_pressed_selector"
-            android:padding="10dp"
-            android:text="@string/pause"
-            android:textColor="@color/black" />
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_2">
 
-    </LinearLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cancelButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_pressed_selector"
+                android:padding="10dp"
+                android:text="@string/cancel"
+                android:textColor="@color/black" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/pauseButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/pause_button_pressed_selector"
+                android:padding="10dp"
+                android:text="@string/pause"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
