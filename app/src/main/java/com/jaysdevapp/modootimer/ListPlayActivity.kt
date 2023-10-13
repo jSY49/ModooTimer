@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingUtil
 import com.jaysdevapp.modootimer.databinding.ActivityListPlayBinding
 import kotlinx.coroutines.*
 import java.util.*
@@ -20,12 +21,13 @@ import kotlin.concurrent.timer
 
 class ListPlayActivity : AppCompatActivity() {
 
-    private val binding by lazy { ActivityListPlayBinding.inflate(layoutInflater) }
+    private lateinit var binding :ActivityListPlayBinding
     private var timer: Timer? = null
     private var vibrator : Vibrator? = null
     private var ringtone: Ringtone? = null
     private var pauseFlag = false
 
+    var tmpName = ""
     var tmpH = 0
     var tmpM = 0
     var tmpS = 0
@@ -35,8 +37,10 @@ class ListPlayActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_list_play)
         setContentView(binding.root)
-        binding.timerName.text = intent.getStringExtra("name")
+
+        tmpName = intent.getStringExtra("name").toString()
         tmpH = intent.getIntExtra("hour",0)
         tmpM = intent.getIntExtra("min",0)
         tmpS = intent.getIntExtra("sec",0)
@@ -135,25 +139,7 @@ class ListPlayActivity : AppCompatActivity() {
             }
 
             runOnUiThread{
-                // UI 조작
-                if(tmpS <= 9){
-                    binding.secTv.text=("0$tmpS")
-                } else {
-                    binding.secTv.text= tmpS.toString()
-                }
-
-                if(tmpM <= 9){
-                    binding.minTv.text=("0$tmpM");
-                } else {
-                    binding.minTv.text= tmpM.toString()
-                }
-
-                if(tmpH <= 9){
-                    binding.hourTv.text = "0$tmpH";
-                } else {
-                    binding.hourTv.text=(tmpH.toString());
-                }
-
+                binding.listplay = LISTPLAY(tmpName,tmpH,tmpM,tmpS)
                 // 시분초가 다 0이라면 toast를 띄우고 타이머를 종료한다..
                 if(tmpH == 0 && tmpM == 0 && tmpS == 0) {
                     val vloop = longArrayOf(600,300)//600진동 300 대기

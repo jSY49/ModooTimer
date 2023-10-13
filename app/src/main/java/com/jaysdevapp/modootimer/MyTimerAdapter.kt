@@ -40,7 +40,8 @@ class MyTimerAdapter(
 
         fun bind(currentdata: List<timerData>) {
 
-            binding.timerNm.text= currentdata[position].name
+//            binding.timerNm.text= currentdata[position].name
+            binding.listitem = LIST(currentdata[position].name)
 
             binding.deleteButton.setOnClickListener{
                 val builder = timerListFragment.deleteDialog(currentdata.get(position))
