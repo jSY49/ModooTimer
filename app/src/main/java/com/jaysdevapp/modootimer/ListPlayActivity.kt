@@ -45,10 +45,7 @@ class ListPlayActivity : AppCompatActivity() {
         tmpM = intent.getIntExtra("min",0)
         tmpS = intent.getIntExtra("sec",0)
 
-        binding.hourTv.text = tmpH.toString()
-        binding.minTv.text = tmpM.toString()
-        binding.secTv.text = tmpS.toString()
-
+        binding.listplay = LISTPLAY(tmpName,tmpH,tmpM,tmpS)
         setNotification()
         binding.cancelButton.setOnClickListener {
             cancelButtonClick()
@@ -115,7 +112,7 @@ class ListPlayActivity : AppCompatActivity() {
             binding.cntTextview.visibility=View.GONE
         }
 
-        timer = timer(period = 1000, initialDelay = 3000){
+        timer = timer(period = 1000, initialDelay = 3200){
             // 0초 이상이면
             if (tmpS != 0) {
                 //1초씩 감소

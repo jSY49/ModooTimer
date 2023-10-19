@@ -56,7 +56,6 @@ class BasicTimerFragment : Fragment() {
         binding.cancelButton.setOnClickListener { cancelButtonClick() }
         binding.pauseButton.setOnClickListener { pauseButtonClick() }
 
-
     }
 
     private fun setNotification() {
@@ -142,31 +141,20 @@ class BasicTimerFragment : Fragment() {
         startCont()
 
         timer = timer(period = 1000, initialDelay = 3200) {
-            // 0초 이상이면
-            if (tmpS != 0) {
-                //1초씩 감소
+            if (tmpS != 0) {// 0초 아니면
                 tmpS--
-
-                // 0분 이상이면
-            } else if (tmpM != 0) {
-                // 1분 = 60초
-                tmpS = 60
-                tmpS--
+            } else if (tmpM != 0) {// 0분 아니면
+                tmpS = 59
                 tmpM--
-
-                // 0시간 이상이면
-            } else if (tmpH != 0) {
-                // 1시간 = 60분
-                tmpS = 60
-                tmpM = 60
-                tmpS--
-                tmpM--
+            } else if (tmpH != 0) {// 0시간 아니면
+                tmpS = 59
+                tmpM = 59
                 tmpH--
             }
 
             activity?.runOnUiThread{
                 binding.timer = TIMER(tmpH,tmpM,tmpS)
-                // 시분초가 다 0이라면 toast를 띄우고 타이머를 종료한다..
+                // 시분초가 다 0이
                 if(tmpH == 0 && tmpM == 0 && tmpS == 0) {
                     val vloop = longArrayOf(600,300)//600진동 300 대기
 //                    vibrator.vibrate(VibrationEffect.createOneShot(1000,50))

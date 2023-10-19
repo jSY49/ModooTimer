@@ -43,7 +43,7 @@
             android:hint="@string/askUserName"
             android:imeOptions="actionDone"
             android:inputType="text"
-            android:singleLine="true" />
+            android:maxLines="1" />
 
         <ImageButton
             android:id="@+id/checkBtn"
