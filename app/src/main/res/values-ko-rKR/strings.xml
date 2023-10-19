@@ -41,4 +41,5 @@
     <string name="selectOff">비공개</string>
     <string name="selectON">공개</string>
     <string name="onOff">공개/비공개</string>
+    <string name="Itemcnt">당신의 타이머 개수 : ($02d)</string>
 </resources>

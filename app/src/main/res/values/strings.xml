@@ -59,6 +59,7 @@
     <string name="onOff">ON/OFF</string>
 
     <string name="number" translatable="false">%02d</string>
+    <string name="Itemcnt">Number of your Timer : (%02d)</string>
 
 
 </resources>

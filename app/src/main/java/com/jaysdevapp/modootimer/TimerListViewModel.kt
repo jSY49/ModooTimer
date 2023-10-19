@@ -21,6 +21,10 @@ class TimerListViewModel : ViewModel() {
         getData(name)
     }
 
+    fun dataSearchUpdate(name :String, keyword :String){
+        getSearchData(name,keyword)
+    }
+
     fun getUserId(context: Context){
         getId(context)
     }
@@ -47,6 +51,11 @@ class TimerListViewModel : ViewModel() {
             .addOnFailureListener { exception ->
                 Log.w("TimerListViewModel_getData()", "Error getting documents: ", exception)
             }
+    }
+
+
+    private fun getSearchData(name: String, keyword: String) {
+
     }
 
     private fun getId(context: Context){

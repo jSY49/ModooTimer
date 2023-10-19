@@ -26,7 +26,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class   TimerListFragment : Fragment() {
+class   TimerListFragment : Fragment(),View.OnClickListener {
 
     private lateinit var viewModel: TimerListViewModel
     private lateinit var binding: FragmentTimerListBinding
@@ -34,6 +34,7 @@ class   TimerListFragment : Fragment() {
     private lateinit var contxt :Context
     private var userName : String = ""
     private var data : ArrayList<timerData> = arrayListOf()
+    private var searchdata : ArrayList<timerData> = arrayListOf()
     private val loadingDialog = CircleProgressDialog()
 
     override fun onCreateView(
@@ -49,10 +50,14 @@ class   TimerListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(TimerListViewModel::class.java)
         contxt = activity!!.applicationContext
+
+        binding.searchBtn.setOnClickListener(this)
+
         myAdpater = MyTimerAdapter(this.activity,arrayListOf(),this)
         setRecycler()
         viewModel.getUserId(contxt)
         dataObserve()
+
     }
 
     private fun dataObserve() {
@@ -64,7 +69,9 @@ class   TimerListFragment : Fragment() {
                 data.clear()
                 viewModel.livedata.observe(this){
                     data = it
+                    Log.d("TimerListFragment","dataObserve-> {$it}")
                     myAdpater.updateTimer(data)
+                    binding.itemCnt = ITEMCNT(myAdpater.itemCount)
                     loadingDialog.dismiss()
                 }
 
@@ -192,4 +199,24 @@ class   TimerListFragment : Fragment() {
         intent.putExtra("sec",data.sec.toInt())
         startActivity(intent)
     }
+
+    override fun onClick(p0: View?) {
+        when(p0?.id){
+            R.id.searchBtn->{
+                if(userName.isNotBlank()) {
+                    searchdata.clear()
+                    searchdata.addAll(
+                        data.filter {
+                            it.name.contains(binding.searchEditText.text.trim().toString())
+                        }
+                    )
+                    myAdpater.updateTimer(searchdata)
+                    binding.itemCnt = ITEMCNT(myAdpater.itemCount)
+                }
+                else
+                    Toast.makeText(context,resources.getText(R.string.gotosignup),Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
 }
