@@ -61,5 +61,8 @@
     <string name="number" translatable="false">%02d</string>
     <string name="Itemcnt">Number of your Timer : (%02d)</string>
 
+    <string name="Alarm">Alarm</string>
+    <string name="vibration">vibration</string>
+    <string name="sound">sound</string>
 
 </resources>

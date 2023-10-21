@@ -4,6 +4,7 @@ package com.jaysdevapp.modootimer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -20,13 +21,23 @@ class MainActivity : AppCompatActivity() {
     private var basicTimerFragment: BasicTimerFragment? = null
     private var timerListFragment: TimerListFragment? = null
 
+    companion object{
+        lateinit var pref: SettingUtil
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(_binding.root)
-
+        pref = SettingUtil(this)
         setNavigaion()
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("MainActivity","onStart")
+        pref = SettingUtil(this)
     }
 
     private fun setNavigaion() {

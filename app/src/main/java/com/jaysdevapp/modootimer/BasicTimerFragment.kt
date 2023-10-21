@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.jaysdevapp.modootimer.MainActivity.Companion.pref
 import com.jaysdevapp.modootimer.databinding.FragmentBasicTimerBinding
 import kotlinx.coroutines.*
 import java.util.*
@@ -33,8 +34,8 @@ class BasicTimerFragment : Fragment() {
     private var pauseFlag = false
     private var timer: Timer? = null
 
-    lateinit var vibrator :Vibrator
-    lateinit var ringtone: Ringtone
+    var vibrator :Vibrator? = null
+    var ringtone: Ringtone? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,7 +49,6 @@ class BasicTimerFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this)[BasicTimerViewModel::class.java]
 
-        setNotification()
         numberPicker = SetNumberPicker(binding.numberPicker1,binding.numberPicker2,binding.numberPicker3,0,0,0)
         numberPicker.setting()
 
@@ -61,16 +61,20 @@ class BasicTimerFragment : Fragment() {
     private fun setNotification() {
 
         //진동
-        vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val vibratorManager = activity?.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
-            vibratorManager.defaultVibrator
-        } else {
-            @Suppress("DEPRECATION")
-            activity?.getSystemService(VIBRATOR_SERVICE) as Vibrator
+        if (pref.getValue("vibration", false)) {
+            vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val vibratorManager =
+                    activity?.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                vibratorManager.defaultVibrator
+            } else {
+                @Suppress("DEPRECATION")
+                activity?.getSystemService(VIBRATOR_SERVICE) as Vibrator
+            }
         }
-
-        val notify = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-        ringtone = RingtoneManager.getRingtone(activity!!.applicationContext, notify)
+        if (pref.getValue("sound", false)) {
+            val notify = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+            ringtone = RingtoneManager.getRingtone(activity!!.applicationContext, notify)
+        }
 
     }
 
@@ -105,12 +109,13 @@ class BasicTimerFragment : Fragment() {
             binding.stopLayout.visibility = View.VISIBLE
             it.cancel()
         }
-        vibrator.cancel()
-        ringtone.stop()
+        vibrator?.cancel()
+        ringtone?.stop()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun startButtonClick() {
+        setNotification()
         var hour  = numberPicker.getHour()
         var min  = numberPicker.getMin()
         var sec  = numberPicker.getSec()
@@ -158,8 +163,8 @@ class BasicTimerFragment : Fragment() {
                 if(tmpH == 0 && tmpM == 0 && tmpS == 0) {
                     val vloop = longArrayOf(600,300)//600진동 300 대기
 //                    vibrator.vibrate(VibrationEffect.createOneShot(1000,50))
-                    vibrator.vibrate(vloop, 0) //계속 진동
-                    ringtone.play()
+                    vibrator?.vibrate(vloop, 0) //계속 진동
+                    ringtone?.play()
 
                     binding.cancelButton.text=resources.getString(R.string.done)
                     binding.pauseButton.visibility=View.INVISIBLE
